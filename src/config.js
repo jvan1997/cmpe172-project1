@@ -18,38 +18,36 @@
 //     }
 //   };
 const dev = {
-  STRIPE_KEY: "YOUR_STRIPE_DEV_PUBLIC_KEY",
   s3: {
-    REGION: "YOUR_DEV_S3_UPLOADS_BUCKET_REGION",
-    BUCKET: "YOUR_DEV_S3_UPLOADS_BUCKET_NAME"
+    REGION: "us-west-2",
+    BUCKET: "cmpe-172-proj2-api-dev-cmpe172bucket-1webiq0g7633m"
   },
   apiGateway: {
-    REGION: "YOUR_DEV_API_GATEWAY_REGION",
-    URL: "YOUR_DEV_API_GATEWAY_URL"
+    REGION: "us-west-2",
+    URL: "https://yxixu3zwyj.execute-api.us-west-2.amazonaws.com/dev"
   },
   cognito: {
-    REGION: "YOUR_DEV_COGNITO_REGION",
-    USER_POOL_ID: "YOUR_DEV_COGNITO_USER_POOL_ID",
-    APP_CLIENT_ID: "YOUR_DEV_COGNITO_APP_CLIENT_ID",
-    IDENTITY_POOL_ID: "YOUR_DEV_IDENTITY_POOL_ID"
+    REGION: "us-west-2",
+    USER_POOL_ID: "us-west-2_Qxo5EYjR8",
+    APP_CLIENT_ID: "7u8u3k53p18srgqvaibf2sfvss",
+    IDENTITY_POOL_ID: "us-west-2:f3434436-e43c-43ee-9c2b-8541e967cddf"
   }
 };
 
 const prod = {
-  STRIPE_KEY: "YOUR_STRIPE_PROD_PUBLIC_KEY",
   s3: {
-    REGION: "YOUR_PROD_S3_UPLOADS_BUCKET_REGION",
-    BUCKET: "YOUR_PROD_S3_UPLOADS_BUCKET_NAME"
+    REGION: "us-west-2",
+    BUCKET: "cmpe-172-proj2-api-prod-cmpe172bucket-1iutvufkktsk0"
   },
   apiGateway: {
-    REGION: "YOUR_PROD_API_GATEWAY_REGION",
-    URL: "YOUR_PROD_API_GATEWAY_URL"
+    REGION: "us-west-2",
+    URL: "https://u7itb3clyk.execute-api.us-west-2.amazonaws.com/prod"
   },
   cognito: {
-    REGION: "YOUR_PROD_COGNITO_REGION",
-    USER_POOL_ID: "YOUR_PROD_COGNITO_USER_POOL_ID",
-    APP_CLIENT_ID: "YOUR_PROD_COGNITO_APP_CLIENT_ID",
-    IDENTITY_POOL_ID: "YOUR_PROD_IDENTITY_POOL_ID"
+    REGION: "us-west-2",
+    USER_POOL_ID: "us-west-2_gHJ5wFlgi",
+    APP_CLIENT_ID: "6v0oi2rvrl0fpqebfr6p00rj03",
+    IDENTITY_POOL_ID: "us-west-2:d8804d78-b5e4-4119-8bbb-012efffb8d2c"
   }
 };
 
