@@ -5,9 +5,9 @@ var router = express.Router();
 
 router.get('/', function(req, res, next) {
 const BUCKET = 'jvanbucket';
-const REGION = 'us-west-2';
-const ACCESS_KEY = 'AKIAJ6ZAUPT4VX4AUQEQ';
-const SECRET_KEY = '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';
+const REGION = 'us-west-1';
+const ACCESS_KEY = 'AKIAI45ICTX2OM3YAUGA';
+const SECRET_KEY = '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';
   try{
       AWS.config.setPromisesDependency();
       AWS.config.update({
