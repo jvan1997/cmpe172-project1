@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import "react-datepicker/dist/react-datepicker.css";
 import ReactLoading from 'react-loading';
 import { Auth } from "aws-amplify";
 import { API } from "aws-amplify";
