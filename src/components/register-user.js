@@ -77,7 +77,7 @@ export default class RegisterUser extends Component{
         }
         try {
             this.setIsLoading();
-
+            console.log(data);
             await Auth.signUp(data);
             this.setState({newUser:true});
             this.setState({isLoading:false});

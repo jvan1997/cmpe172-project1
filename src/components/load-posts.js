@@ -59,12 +59,13 @@ export default class LoadPost extends Component{
         console.log(this.props.isAuthenticated);
     
   }
-  getAdminPosts(){
-    return  API.get("posts", "/adminposts");
-
-}
   getPosts(){
-      return  API.get("posts", "/posts");
+        console.log(this.props);
+        return  API.get("posts", "/posts");
+  }
+  getAdminPosts(){
+        return  API.get("posts", "/adminposts");
+
   }
     render() {
         console.log(this.state.isLoading);

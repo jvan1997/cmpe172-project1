@@ -2,6 +2,8 @@ import React,{Component} from 'react';
 import {API,Storage,Auth} from 'aws-amplify';
 import ReactLoading from 'react-loading';
 import cloneDeep from 'lodash/cloneDeep';
+import AWS from "aws-sdk";
+import config from '../config';
 export default class ViewPost extends Component{
     constructor(props){
         super(props)
@@ -28,10 +30,8 @@ export default class ViewPost extends Component{
         event.target.value = null;
         return false;
         }
-        console.log(event.target.files[0]);
         let holder = this.state.editPost;
         holder.files = event.target.files[0];
-        console.log(holder);
         this.setState({editPost:holder});
 }
     componentDidMount(){
@@ -43,17 +43,13 @@ export default class ViewPost extends Component{
         this.setState({editPost:holder});
     }
     async loadNote() {
-        console.log("hi?");
         let postId = this.props.match.params.id;
         let user = await Auth.currentAuthenticatedUser();
-        console.log(user);
         this.setState({userInfo:user.attributes});
         if(user.attributes.profile === "admin"){
-            console.log("here");
             return API.get("posts", `/adminposts/${postId}`);
         }
         else{
-            console.log("HER");
             return API.get("posts", `/posts/${postId}`);
         }
         
@@ -63,12 +59,16 @@ export default class ViewPost extends Component{
         let post = await this.loadNote();
         post = post.length === 1 ? post[0] : post;
         if(post.attachment){
-            console.log(post.attachment);
+            if(this.state.userInfo.profile === "admin"){
+                let newUrl = "d1b9g4izcjebow.cloudfront.net/private/" + post.userId + "/" + post.attachment;
+                post.attachmentURL = newUrl;
+            }
+            else{
             post.attachmentURL = await Storage.vault.get(post.attachment);
-        }
+        }}
         let post2 = cloneDeep(post);
         this.setState({post:post, loaded:true,editPost:post2});
-        console.log(this.state);
+
     }
     catch(e){
         console.log(e);
@@ -81,7 +81,6 @@ export default class ViewPost extends Component{
         let current = this.state.editPost;
         current.title = "holder";
         this.setState({edit:true,editPost:current});
-                        console.log(this.state);
 
 
     }
@@ -91,7 +90,6 @@ export default class ViewPost extends Component{
   const stored = await Storage.vault.put(filename, file, {
     contentType: file.type
   });
-console.log(stored.key);
   return stored.key;
 }
 async startDelete(e){
@@ -106,9 +104,7 @@ async startDelete(e){
     this.setState({deleting:true});
     let postId = this.props.match.params.id;
     let post = {userId:this.state.post.userId};
-    console.log(post);
     if(this.state.userInfo.profile === "admin"){
-        console.log("IN HERE");
         await API.del("posts", `/adminposts/${postId}`, {
             body:post
         });
@@ -138,7 +134,6 @@ async startDelete(e){
         if(newChange === true || (this.state.editPost.files !== null && this.state.editPost.files !== undefined)){
             const fileKey = this.state.editPost.files ? await this.s3Upload(this.state.editPost.files)
             : this.state.post.attachment;
-            console.log(fileKey);
             this.setState({isUpdating:true});
             const post  ={
                 firstname:this.state.editPost.firstname,
@@ -156,7 +151,6 @@ async startDelete(e){
             this.props.history.push('/');
         }catch(e){
             this.setState({isUpdating:false});
-            console.log(e);
         }
     }
     }
