@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {API,Storage} from 'aws-amplify';
+import {API,Storage,Auth} from 'aws-amplify';
 import ReactLoading from 'react-loading';
 import cloneDeep from 'lodash/cloneDeep';
 export default class ViewPost extends Component{
@@ -10,7 +10,8 @@ export default class ViewPost extends Component{
             content:'',
             loaded:false,
             edit:false,
-            deleting:false
+            deleting:false,
+            userInfo: {},
 
         }
         this.changePost = this.changePost.bind(this);
@@ -42,14 +43,25 @@ export default class ViewPost extends Component{
         this.setState({editPost:holder});
     }
     async loadNote() {
+        console.log("hi?");
         let postId = this.props.match.params.id;
-        console.log(postId);
-        return API.get("posts", `/posts/${postId}`);
+        let user = await Auth.currentAuthenticatedUser();
+        console.log(user);
+        this.setState({userInfo:user.attributes});
+        if(user.attributes.profile === "admin"){
+            console.log("here");
+            return API.get("posts", `/adminposts/${postId}`);
+        }
+        else{
+            console.log("HER");
+            return API.get("posts", `/posts/${postId}`);
+        }
+        
     }
     async onLoad(){
         try{
         let post = await this.loadNote();
-        console.log(post);
+        post = post.length === 1 ? post[0] : post;
         if(post.attachment){
             console.log(post.attachment);
             post.attachmentURL = await Storage.vault.get(post.attachment);
@@ -59,6 +71,7 @@ export default class ViewPost extends Component{
         console.log(this.state);
     }
     catch(e){
+        console.log(e);
         this.setState({failed:true});
     }
 
@@ -92,7 +105,18 @@ async startDelete(e){
   try {
     this.setState({deleting:true});
     let postId = this.props.match.params.id;
-    await API.del("posts", `/posts/${postId}`);
+    let post = {userId:this.state.post.userId};
+    console.log(post);
+    if(this.state.userInfo.profile === "admin"){
+        console.log("IN HERE");
+        await API.del("posts", `/adminposts/${postId}`, {
+            body:post
+        });
+    }
+    else{
+        await API.del("posts", `/posts/${postId}`);
+    }
+
     this.props.history.push("/");
   } catch (e) {
     alert(e);
@@ -152,12 +176,14 @@ async startDelete(e){
                 <p>Name: {this.state.post.firstname + " " + this.state.post.lastname}</p>     
                 <p>Content: {this.state.post.content}</p>     
                 <p>Created: {new Date(this.state.post.createdAt).toLocaleString()}</p>
-                <p>Updated: {new Date(this.state.post.updatedAt).toLocaleString()}</p>
+               <p>Updated: {new Date(this.state.post.updatedAt).toLocaleString()}</p>
                 <div className="flex"> 
                 <p>Click to download file:</p>
                 <p onClick={() => window.location = this.state.post.attachmentURL}className="cursor-pointer text-blue-600 hover:text-blue-300">{this.state.post.attachment}</p>
                 </div>
-                <button className="h-10 p-2 w-16 rounded text-white bg-green-600 ml-2 mr-2" onClick={() => this.changePost()}>Edit</button>
+                 {this.state.userInfo.profile !== "admin" && 
+                 <button className="h-10 p-2 w-16 rounded text-white bg-green-600 ml-2 mr-2" onClick={() => this.changePost()}>Edit</button>
+                 }
                 <button className="h-10 p-2 rounded text-white bg-red-500 ml-2 " onClick={(e) => this.startDelete(e)}>Delete</button>
                 {this.state.deleting &&                
                  <div className="text-center items-center justify-center flex">

@@ -50,8 +50,7 @@ class App extends React.Component {
         .then(user => {
             console.log("USER");
             console.log(user);
-        this.setState({name:user.attributes.name, lastname:user.attributes.family_name});
-    
+        this.setState({name:user.attributes.name, lastname:user.attributes.family_name, profile:user.attributes.profile});    
         this.setState({isAuthenticated:true});
     })
     }
@@ -72,8 +71,7 @@ class App extends React.Component {
             <div class="flex items-center justify-end w-full px-6 font-bold">
               
             <Link to="/" className="text-gray-800 text-lg font-semibold hover:text-green-600 mr-4">Home</Link>
-            <Link to="/create" className="text-gray-800 text-lg font-semibold hover:text-green-600 mr-4">Create Post</Link>
-            {
+            {this.state.profile !== "admin" && <Link to="/create" className="text-gray-800 text-lg font-semibold hover:text-green-600 mr-4">Create Post</Link>}            {
               this.state.isAuthenticated ?(
                         <div class="hidden sm:flex sm:items-center">
 
