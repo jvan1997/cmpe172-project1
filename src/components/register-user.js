@@ -66,10 +66,10 @@ export default class RegisterUser extends Component{
                 }
                 };
         if(this.state.adminP !== null && this.state.adminP === "0000"){
-            data.admin = "true";
+            data.attributes.profile = "admin";
         }
         else if(this.state.adminP !== null && this.state.adminP === ""){
-            data.admin = "false";
+            data.attributes.profile = "user";
         }
         else{
             alert("Incorrect admin password, try again or remove the whole field.");
