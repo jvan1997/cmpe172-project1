@@ -13,6 +13,7 @@ export default class RegisterUser extends Component{
             isLoading: false,
             newUser: false,
             confirmationCode: '',
+            adminP:'',
 
         }
         this.onChange = this.onChange.bind(this);
@@ -56,16 +57,28 @@ export default class RegisterUser extends Component{
     }
     async onSubmit(event) {
         event.preventDefault();
-        this.setIsLoading();
-        try {
-            await Auth.signUp({
+        let data ={
                 username: this.state.username,
                 password: this.state.password,
                 attributes: {
                     family_name: this.state.lastname,
                     name: this.state.name
-                },
-                });
+                }
+                };
+        if(this.state.adminP !== null && this.state.adminP === "0000"){
+            data.admin = "true";
+        }
+        else if(this.state.adminP !== null && this.state.adminP === ""){
+            data.admin = "false";
+        }
+        else{
+            alert("Incorrect admin password, try again or remove the whole field.");
+            return;
+        }
+        try {
+            this.setIsLoading();
+
+            await Auth.signUp(data);
             this.setState({newUser:true});
             this.setState({isLoading:false});
         } catch (e) {
@@ -104,6 +117,11 @@ export default class RegisterUser extends Component{
                 <div className="flex flex-col w-full mb-4 items-center">
                             <input className="shadow appearance-none bg-white font-bold border border-solid border-green-600 w-full rounded h-14 py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
                                 id="password" onChange={this.onChange} type="password" value={this.state.password}placeholder="Enter password" />
+                </div>
+                <label>If you are an admin, enter the admin password</label>
+                <div className="flex flex-col w-full mb-4 items-center">
+                            <input className="shadow appearance-none bg-white font-bold border border-solid border-green-600 w-full rounded h-14 py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
+                                id="adminP" onChange={this.onChange} type="password" value={this.state.adminP}placeholder="Enter password" />
                 </div>
               <div className="form-group">
                 <input type="submit" value="Create User" disabled={!this.validateForm()} className="font-bold cursor-pointer border border-solid p-2 border-green-600 rounded text-gray-700" />
