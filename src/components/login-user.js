@@ -1,7 +1,6 @@
 import React,{Component} from 'react';
 import { Auth } from "aws-amplify";
 import ReactLoading from 'react-loading';
-import FacebookButton from "../components/FacebookButton";
 export default class LoginUser extends Component{
     constructor(props){
         super(props)
@@ -71,9 +70,6 @@ export default class LoginUser extends Component{
                 <input type="submit" value="Login"  disabled={!this.validateForm()} className="font-boldcursor-pointer border border-solid p-2 border-green-600 rounded text-gray-700" />
               </div>
             </form>
-            {/* <FacebookButton
-  onLogin={this.handleFbLogin}
-/> */}
 <hr />
             {this.state.isLoading &&
                 <div className="text-center items-center justify-center flex">
