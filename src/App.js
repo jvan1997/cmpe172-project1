@@ -70,7 +70,12 @@ class App extends React.Component {
             <div class="flex items-center justify-end w-full px-6 font-bold">
               
             <Link to="/" className="text-gray-800 text-lg font-semibold hover:text-green-600 mr-4">Home</Link>
-            {this.state.profile !== "admin" && <Link to="/create" className="text-gray-800 text-lg font-semibold hover:text-green-600 mr-4">Create Post</Link>}            {
+            {this.state.profile !== "admin" ?
+             (<Link to="/create" className="text-gray-800 text-lg font-semibold hover:text-green-600 mr-4">Create Post</Link>)
+             :(<p className="mr-4">
+                 Currently in Administrator Mode
+             </p>)}            
+             {
               this.state.isAuthenticated ?(
                         <div class="hidden sm:flex sm:items-center">
 
@@ -90,7 +95,6 @@ class App extends React.Component {
                 <Switch>
 
                 <Route exact path="/" render={props => <Posts {...props} isAuthenticated={this.state.isAuthenticated} hasAuthenticated={this.hasAuthenticated}/>} />
-                <Route path="/edit/:id" exact component={EditPost}/>
                 <Route path="/post/:id" exact component={ViewPost}/>
 
                 <Route path="/create" exact render ={props => <CreatePost {...props} firstname={this.name} family_name={this.family_name}/>}/>

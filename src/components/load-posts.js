@@ -6,6 +6,7 @@ export default class LoadPost extends Component{
         this.state = {
             isLoading:true,
             posts:[],
+            profile:"user",
         }
         this.renderPosts = this.renderPosts.bind(this);
         this.hasAuthenticated = this.props.hasAuthenticated.bind(this);
@@ -51,7 +52,7 @@ export default class LoadPost extends Component{
 
             returns = await this.getPosts();
         }
-        this.setState({posts:returns,isLoading:false});
+        this.setState({posts:returns,isLoading:false, profile:user.attributes.profile});
         console.log(returns);
         }
         catch(e){
@@ -73,8 +74,13 @@ export default class LoadPost extends Component{
             !this.props.isAuthenticated ?
         (<div><p>Home page - please login for posts</p></div>):(
         <div>
-            <p>Logged In: here are your posts</p>
-                {!this.state.isLoading &&
+            {this.state.profile !== "admin"?
+                <p>Logged User In: Here are your posts</p>
+                :              
+                <p>Hello Admin! Welcome to the Panel, here are all the users.</p>
+                      
+            }
+        {!this.state.isLoading &&
                 <div>
                         <table class="text-left w-full border-collapse"> 
       <thead>
