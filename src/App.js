@@ -4,7 +4,6 @@ import {BrowserRouter as Router,Route,Switch,Link,withRouter} from 'react-router
 import LoginUser from './components/login-user';
 import RegisterUser from './components/register-user';
 import CreatePost from './components/create-post';
-import EditPost from './components/edit-post';
 import Posts from './components/load-posts';
 import ViewPost from './components/view-post';                              
 import config from './config';
