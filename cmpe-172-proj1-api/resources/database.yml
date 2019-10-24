@@ -1,0 +1,20 @@
+Resources: 
+  PostsTable: 
+    Properties: 
+      AttributeDefinitions: 
+        - 
+          AttributeName: userId
+          AttributeType: S
+        - 
+          AttributeName: nodeId
+          AttributeType: S
+      BillingMode: PAY_PER_REQUEST
+      KeySchema: 
+        - 
+          AttributeName: userId
+          KeyType: HASH
+        - 
+          AttributeName: nodeId
+          KeyType: RANGE
+      TableName: "${self:custom.tableName}"
+    Type: "AWS::DynamoDB::Table"

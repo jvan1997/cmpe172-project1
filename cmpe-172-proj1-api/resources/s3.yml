@@ -1,0 +1,22 @@
+Resources: 
+  Cmpe172Bucket: 
+    Properties: 
+      CorsConfiguration: 
+        CorsRules: 
+          - 
+            AllowedHeaders: 
+              - "*"
+            AllowedMethods: 
+              - GET
+              - PUT
+              - POST
+              - DELETE
+              - HEAD
+            AllowedOrigins: 
+              - "*"
+            MaxAge: 3000
+    Type: "AWS::S3::Bucket"
+Outputs: 
+  AttachmentsBucketName: 
+    Value: 
+      Ref: Cmpe172Bucket
