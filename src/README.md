@@ -88,20 +88,33 @@ For backend, similar thing, I'm using Seed to deploy and update the lambda funct
 I have an administrative login which will see the list of all files, choose and be redirected to a page containing them,
 ### UI, Documentation, Video, AWS Resoucre Config
 I did not bother doing UI, this is the bare minimum for me. This README.md is my attempt at documentation.
-Configuration Explanation:
+### Configuration Explanation 
 I did everything on the website so..
-S3: I made it private when users upload their files, so only they can access it. Except for the Admin, they use a CloudFront access to view any image/file.
-DynamoDB: Has a userId and fileId as the primary and sort keys. It has other columns like createdAt, updatedAt, firstname,lastname,title,content,attachment.
-Lambda: Each lambda function does either: 
-  read a file as a user, 
-  list all the files as user,
-  create files as a user,
-  edit files as user,
-  delete files as user,
-  read a file as an admin, or
-  list all files as an admin.
-Cognito: I use cognito as the user managment system, they have other attributes like firstname, familyname and profile (which I use to discern users from admins).
-CloudWatch: Each Lambda Function in the API has their own cloud watch.
-R53: Connected the CloudFront URL from the S3 to the Domain that we got with R53.
-CloudFront: Used to get files, speed up the website/bucket, and use an agent to retrieve files regardless of privacy because we gave it origin access permissions.
+
+#### S3: 
+I made it private when users upload their files, so only they can access it. Except for the Admin, they use a CloudFront access to view any image/file.
+
+#### DynamoDB: 
+Has a userId and fileId as the primary and sort keys. It has other columns like createdAt, updatedAt, firstname,lastname,title,content,attachment.
+
+#### Lambda: 
+##### Each lambda function does either: 
+######   read a file as a user, 
+######   list all the files as user,
+######   create files as a user,
+######   edit files as user,
+######   delete files as user,
+######   read a file as an admin, or
+######   list all files as an admin.
+
+#### Cognito: 
+I use cognito as the user managment system, they have other attributes like firstname, familyname and profile (which I use to discern users from admins).
+#### CloudWatch:
+Each Lambda Function in the API has their own cloud watch.
+
+#### R53:
+Connected the CloudFront URL from the S3 to the Domain that we got with R53.
+
+#### CloudFront:
+Used to get files, speed up the website/bucket, and use an agent to retrieve files regardless of privacy because we gave it origin access permissions.
 
