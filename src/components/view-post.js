@@ -65,6 +65,8 @@ export default class ViewPost extends Component{
             }
             else{
             post.attachmentURL = await Storage.vault.get(post.attachment);
+            console.log("THIS IS FOR THE USER");
+            console.log(post.attachmentURL);
         }}
         let post2 = cloneDeep(post);
         this.setState({post:post, loaded:true,editPost:post2});
@@ -173,7 +175,8 @@ async startDelete(e){
                <p>Updated: {new Date(this.state.post.updatedAt).toLocaleString()}</p>
                 <div className="flex"> 
                 <p>Click to download file:</p>
-                <p onClick={() => window.location = this.state.post.attachmentURL}className="cursor-pointer text-blue-600 hover:text-blue-300">{this.state.post.attachment}</p>
+                <a onClick={() =>    window.location.assign(this.state.post.attachmentURL)}
+                className="cursor-pointer text-blue-600 hover:text-blue-300">{this.state.post.attachment}</a>
                 </div>
                  {this.state.userInfo.profile !== "admin" && 
                  <button className="h-10 p-2 w-16 rounded text-white bg-green-600 ml-2 mr-2" onClick={() => this.changePost()}>Edit</button>

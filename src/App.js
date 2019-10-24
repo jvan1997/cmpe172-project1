@@ -55,8 +55,7 @@ class App extends React.Component {
     }
     async handleLogout() {
         await Auth.signOut();
-
-        this.setState({isAuthenticated:false})
+        this.setState({isAuthenticated:false, profile:""});
         console.log(this.state.isAuthenticated);
         this.props.history.push("/login");
         window.location.reload();
