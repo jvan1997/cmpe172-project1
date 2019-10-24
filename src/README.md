@@ -67,6 +67,7 @@ When a user wants to delete their posting they own, they can select and delete i
 ### R53
 The static website is processed via cloudfront, to which it has access to WWW, and that cloudfront is given a domain name jonathan-van.com which I paid 12 dollars for.
 ### ELB
+Not used.
 ### S3, CF
 I run a static website on S3 that uses cloud front to host make it faster, as well as cloudfront to download the files
 ### Lambda
@@ -80,7 +81,7 @@ They exist (different api lambdas for another region us-east-1) but they do not 
 ### Highly Scalable (Autoscale Group)
 I set it so that the database
 ### GitHub, AWS Codestar, Code commit, others
-10.0 pts
+Currently the working version is on github, I accidentally put it on code commit and cannot undo it
 ### CI/CD
 Okay so it's weird, I've been testing and deploying the front end to netlify at first, but since I'm doing it on bucket, I guess what I could do is have the entire netlify to be the development stage, and then afterwards just put it on the S3 with version control so I can revert whenever I want.
 For backend, similar thing, I'm using Seed to deploy and update the lambda functions, they have a testing and production setting too.
