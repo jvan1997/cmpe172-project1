@@ -1,0 +1,102 @@
+diff --git a/client/src/components/view-post.js b/client/src/components/view-post.js
+index 481c3cb..590db6f 100644
+--- a/client/src/components/view-post.js
++++ b/client/src/components/view-post.js
+@@ -6,12 +6,15 @@ export default class ViewPost extends Component{
+     constructor(props){
+         super(props)
+         this.state = {
+-            post:null,
+             content:'',
+             loaded:false,
+             edit:false,
+             deleting:false,
+             userInfo: {},
++            post:{
++                attachmentURL:'',
++                attachment:''
++            }
+ 
+         }
+         this.changePost = this.changePost.bind(this);
+@@ -57,12 +60,20 @@ export default class ViewPost extends Component{
+         let post = await this.loadNote();
+         post = post.length === 1 ? post[0] : post;
+         if(post.attachment){
++            if(this.state.userInfo.profile === "admin"){
++                let newUrl = "https://d1b9g4izcjebow.cloudfront.net/private/" + post.userId + "/" + post.attachment;
++                post.attachmentURL = newUrl;
++            }
++            else{
+             post.attachmentURL = await Storage.vault.get(post.attachment);
++            }
+         }
+         let post2 = cloneDeep(post);
+         this.setState({post:post, loaded:true,editPost:post2});
++
+     }
+     catch(e){
++        console.log(e);
+         this.setState({failed:true});
+     }
+ 
+@@ -146,6 +157,7 @@ async startDelete(e){
+     }
+     }
+     render() {
++        console.log(this.state.post.attachmentURL);
+         return(
+         <div>
+             {this.state.failed &&
+@@ -164,7 +176,8 @@ async startDelete(e){
+                <p>Updated: {new Date(this.state.post.updatedAt).toLocaleString()}</p>
+                 <div className="flex"> 
+                 <p>Click to download file:</p>
+-                <p onClick={() => window.location = this.state.post.attachmentURL}className="cursor-pointer text-blue-600 hover:text-blue-300">{this.state.post.attachment}</p>
++                <a onClick={() =>    window.location.assign(this.state.post.attachmentURL)}
++                className="cursor-pointer text-blue-600 hover:text-blue-300">{this.state.post.attachment}</a>
+                 </div>
+                  {this.state.userInfo.profile !== "admin" && 
+                  <button className="h-10 p-2 w-16 rounded text-white bg-green-600 ml-2 mr-2" onClick={() => this.changePost()}>Edit</button>
+@@ -199,7 +212,10 @@ async startDelete(e){
+                 <div > 
+                 <p>Current file on reference:</p>
+                 <p>Please note that if you upload and save a new file, this current file will be removed.</p>
+-                <p onClick={() => window.location = this.state.post.attachmentURL}className="cursor-pointer text-blue-600 hover:text-blue-300">{this.state.post.attachment}</p>
++
++                <button className="cursor-pointer text-blue-600 hover:text-blue-300" onClick={() => window.open(this.state.post.attachmentURL, "Download","toolbar=no, location=no, statusbar=no, menubar=no, scrollbars=1, resizable=0, width=580, height=600, top=30")}> {this.state.post.attachment}</button>
++
++                {/* <p onClick={() =>  window.open(this.state.post.attachmentURL, '_blank')}className="cursor-pointer text-blue-600 hover:text-blue-300">{this.state.post.attachment}</p> */}
+                 </div>
+                 <div>
+                 <label className="font-bold">File: </label>
+diff --git a/cmpe-172-proj1-api/package-lock.json b/cmpe-172-proj1-api/package-lock.json
+index a8c7a83..a997bd1 100644
+--- a/cmpe-172-proj1-api/package-lock.json
++++ b/cmpe-172-proj1-api/package-lock.json
+@@ -2249,9 +2249,9 @@
+       "dev": true
+     },
+     "aws-sdk": {
+-      "version": "2.551.0",
+-      "resolved": "https://registry.npmjs.org/aws-sdk/-/aws-sdk-2.551.0.tgz",
+-      "integrity": "sha512-H2S3GAIxxX9yG4i6NVFz/bcpW2RocYE8gBSn5SwbbV7ediqkxc4vCA247lyySscyqIhTcHZgpxwNNBxPcK8mnQ==",
++      "version": "2.553.0",
++      "resolved": "https://registry.npmjs.org/aws-sdk/-/aws-sdk-2.553.0.tgz",
++      "integrity": "sha512-tcITF/3ijBumvP13Qrq/VB1eRWW6szKF0xVwZ/ch0MGkaEiTQ9n3zNRPtQc1drllsVEm5u5aXp3inoi5zmq0xg==",
+       "dev": true,
+       "requires": {
+         "buffer": "4.9.1",
+diff --git a/cmpe-172-proj1-api/package.json b/cmpe-172-proj1-api/package.json
+index c039ce1..db3b704 100644
+--- a/cmpe-172-proj1-api/package.json
++++ b/cmpe-172-proj1-api/package.json
+@@ -13,7 +13,7 @@
+     "url": "https://github.com/AnomalyInnovations/serverless-nodejs-starter.git"
+   },
+   "devDependencies": {
+-    "aws-sdk": "^2.551.0",
++    "aws-sdk": "^2.553.0",
+     "jest": "^24.9.0",
+     "serverless-bundle": "^1.2.5",
+     "serverless-dotenv-plugin": "^2.1.1",

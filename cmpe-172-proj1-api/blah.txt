@@ -1,0 +1,55 @@
+diff --git a/client/src/components/view-post.js b/client/src/components/view-post.js
+index 481c3cb..e08f94d 100644
+--- a/client/src/components/view-post.js
++++ b/client/src/components/view-post.js
+@@ -57,12 +57,20 @@ export default class ViewPost extends Component{
+         let post = await this.loadNote();
+         post = post.length === 1 ? post[0] : post;
+         if(post.attachment){
++            if(this.state.userInfo.profile === "admin"){
++                let newUrl = "d1b9g4izcjebow.cloudfront.net/private/" + post.userId + "/" + post.attachment;
++                post.attachmentURL = newUrl;
++            }
++            else{
+             post.attachmentURL = await Storage.vault.get(post.attachment);
++            }
+         }
+         let post2 = cloneDeep(post);
+         this.setState({post:post, loaded:true,editPost:post2});
++
+     }
+     catch(e){
++        console.log(e);
+         this.setState({failed:true});
+     }
+ 
+diff --git a/cmpe-172-proj1-api/package-lock.json b/cmpe-172-proj1-api/package-lock.json
+index a8c7a83..a997bd1 100644
+--- a/cmpe-172-proj1-api/package-lock.json
++++ b/cmpe-172-proj1-api/package-lock.json
+@@ -2249,9 +2249,9 @@
+       "dev": true
+     },
+     "aws-sdk": {
+-      "version": "2.551.0",
+-      "resolved": "https://registry.npmjs.org/aws-sdk/-/aws-sdk-2.551.0.tgz",
+-      "integrity": "sha512-H2S3GAIxxX9yG4i6NVFz/bcpW2RocYE8gBSn5SwbbV7ediqkxc4vCA247lyySscyqIhTcHZgpxwNNBxPcK8mnQ==",
++      "version": "2.553.0",
++      "resolved": "https://registry.npmjs.org/aws-sdk/-/aws-sdk-2.553.0.tgz",
++      "integrity": "sha512-tcITF/3ijBumvP13Qrq/VB1eRWW6szKF0xVwZ/ch0MGkaEiTQ9n3zNRPtQc1drllsVEm5u5aXp3inoi5zmq0xg==",
+       "dev": true,
+       "requires": {
+         "buffer": "4.9.1",
+diff --git a/cmpe-172-proj1-api/package.json b/cmpe-172-proj1-api/package.json
+index c039ce1..db3b704 100644
+--- a/cmpe-172-proj1-api/package.json
++++ b/cmpe-172-proj1-api/package.json
+@@ -13,7 +13,7 @@
+     "url": "https://github.com/AnomalyInnovations/serverless-nodejs-starter.git"
+   },
+   "devDependencies": {
+-    "aws-sdk": "^2.551.0",
++    "aws-sdk": "^2.553.0",
+     "jest": "^24.9.0",
+     "serverless-bundle": "^1.2.5",
+     "serverless-dotenv-plugin": "^2.1.1",
