@@ -79,7 +79,7 @@ There are backups in case for version control, and I attempted to do multiple re
 ### Highly Available Solution (Multi AZ Replication)
 They exist (different api lambdas for another region us-east-1) but they do not work. If I were to be able to implement this, I will would multiple lambda functions in different regions, with supporting S3, DynamoDB, Cognitos that sync up with each other. I did attempt to create other regional versions of the databases, buckets, and apis.
 ### Highly Scalable (Autoscale Group)
-I set it so that the database
+I set it so that the database will scale accordingly, as well as the s3 bucket. 
 ### GitHub, AWS Codestar, Code commit, others
 Currently the working version is on github, I accidentally put it on code commit and cannot undo it
 ### CI/CD
