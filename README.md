@@ -4,7 +4,7 @@ This project is hosted from an S3 Bucket, sped up by CloudFront, and uses the S3
 The domain is managed on Route53, Logged by CloudFront, and uses a Serverless Stack with Lambda functions to perform calls. (Ec2 didn't work for me)
 ### Video Demo of the application
 
-(Link to Video: TBD )
+(Link to Video: Please Check Canvas)
 
 
 ## Running the application
@@ -12,7 +12,7 @@ The domain is managed on Route53, Logged by CloudFront, and uses a Serverless St
 Navigate to www.jonathan-van.com or jonathan-van.com
 
 ## Code Structure
-
+Backend Files mainly came from the following tutorial: https://serverless-stack.com/
 ### Top level File layout
 
     .
