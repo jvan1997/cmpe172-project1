@@ -52,9 +52,7 @@ const prod = {
 };
 
 // Default to dev if not set
-const config = process.env.REACT_APP_STAGE === 'prod'
-  ? prod
-  : dev;
+const config = dev;
 
 export default {
   // Add common config values here
