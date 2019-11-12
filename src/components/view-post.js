@@ -60,7 +60,7 @@ export default class ViewPost extends Component{
         post = post.length === 1 ? post[0] : post;
         if(post.attachment){
             if(this.state.userInfo.profile === "admin"){
-                let newUrl = "http://d1b9g4izcjebow.cloudfront.net/private/" + post.userId + "/" + post.attachment;
+                let newUrl = "d1b9g4izcjebow.cloudfront.net/private/" + post.userId + "/" + post.attachment;
                 post.attachmentURL = newUrl;
             }
             else{
@@ -175,7 +175,7 @@ async startDelete(e){
                <p>Updated: {new Date(this.state.post.updatedAt).toLocaleString()}</p>
                 <div className="flex"> 
                 <p>Click to download file:</p>
-                <a onClick={() =>    window.location.href = this.state.post.attachmentURL}
+                <a onClick={() =>    window.location.assign(this.state.post.attachmentURL)}
                 className="cursor-pointer text-blue-600 hover:text-blue-300">{this.state.post.attachment}</a>
                 </div>
                  {this.state.userInfo.profile !== "admin" && 

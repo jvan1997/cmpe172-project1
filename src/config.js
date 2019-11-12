@@ -24,7 +24,7 @@ const dev = {
   },
   apiGateway: {
     REGION: "us-west-2",
-    URL: "https://yxixu3zwyj.execute-api.us-west-2.amazonaws.com/dev"
+    URL: "https://yxixu3zwyj.execute-api.us-west-2.amazonaws.com/dev",
   },
   cognito: {
     REGION: "us-west-2",

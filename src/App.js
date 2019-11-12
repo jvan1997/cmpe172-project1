@@ -5,6 +5,7 @@ import LoginUser from './components/login-user';
 import RegisterUser from './components/register-user';
 import CreatePost from './components/create-post';
 import Posts from './components/load-posts';
+import Search from './components/search';
 import ViewPost from './components/view-post';                              
 import config from './config';
 import Error from './components/error';
@@ -95,10 +96,9 @@ class App extends React.Component {
 
                 <Route exact path="/" render={props => <Posts {...props} isAuthenticated={this.state.isAuthenticated} hasAuthenticated={this.hasAuthenticated}/>} />
                 <Route path="/post/:id" exact component={ViewPost}/>
-
+                <Route path="/search" render={props => <Search {...props} isAuthenticated={this.state.isAuthenticated} hasAuthenticated={this.hasAuthenticated}/>}/>
                 <Route path="/create" exact render ={props => <CreatePost {...props} firstname={this.name} family_name={this.family_name}/>}/>
                 <Route path="/signup" exact render={props => <RegisterUser {...props} isAuthenticated={this.isAuthenticated} hasAuthenticated={this.hasAuthenticated}/>}/>
-
                 <Route path="/login" render={props => <LoginUser {...props} isAuthenticated={this.state.isAuthenticated} hasAuthenticated={this.hasAuthenticated}/>}
                 />
                 <Route component={Error}/>
