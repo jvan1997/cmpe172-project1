@@ -54,6 +54,7 @@ export default class Search extends Component{
         }
         console.log(this.state.name);
     try {
+        await this.setState({pages:1});
         const returns = await this.performSearch(this.state.name,this.state.pages);
         const hasStuff = returns.total > 0 ? true: false
         await this.setState({posts:returns,isLoading:false, found:hasStuff,submitted:true});
